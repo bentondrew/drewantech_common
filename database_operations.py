@@ -103,8 +103,10 @@ class PostgresqlDatabaseManipulation(object):
                        '.connect_to_database'
                        'function is not a str type.')
     from sqlalchemy import create_engine
+    from sqlalchemy.pool import NullPool
     engine = create_engine(self.login.format(database=database_name,
-                                             **self.db_credentials))
+                                             **self.db_credentials),
+                           poolclass=NullPool)
     return engine
 
 

@@ -3,6 +3,9 @@
 #  ALL RIGHTS RESERVED
 
 
+from contextlib import contextmanager
+
+
 class PostgresqlDatabaseManipulation(object):
   """For creating, connecting to and deleting Postgresql databases.
 
@@ -108,6 +111,26 @@ class PostgresqlDatabaseManipulation(object):
                                              **self.db_credentials),
                            poolclass=NullPool)
     return engine
+
+
+@contextmanager
+def database_transaction(engine):
+  from sqlalchemy.engine import Engine
+  from sqlalchemy.orm import sessionmaker
+  if type(engine) is not Engine:
+    raise ValueError('The engine provided to '
+                     'database_operations.database_transaction function is '
+                     'not a sqlalchemy Engine type.')
+  Session = sessionmaker(bind=engine)
+  session = Session()
+  try:
+    yield session
+    session.commit()
+  except Exception as e:
+    session.rollback()
+    raise e
+  finally:
+    session.close()
 
 
 if __name__ == '__main__':

@@ -13,8 +13,8 @@ def is_number_type_not_complex(value_to_check):
 def valid_directory(directory):
   import os
   if type(directory) is not str:
-    raise ValueError('The provided directory, {}, is not a str type.'
-                     .format(directory))
+    raise TypeError('The provided directory, {}, is not a str type.'
+                    .format(directory))
   if not os.path.isdir(directory):
     raise OSError('The provided directory, {}, is not a valid directory '
                   'location.'.format(directory))

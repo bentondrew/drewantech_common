@@ -4,15 +4,21 @@
 
 from contextlib import contextmanager
 
-login = 'postgresql://{user}:{password}/{database}'
+login = 'postgresql://{user}:{password}@{host}:{port}/{database}'
 database_base_command = '{action} DATABASE {database_name}'
 
 
-def connect_to_database(user_name, user_password, database_name):
+def connect_to_database(user_name,
+                        user_password,
+                        database_host,
+                        database_port,
+                        database_name):
   from sqlalchemy import create_engine
   from sqlalchemy.pool import NullPool
   engine = create_engine(login.format(user=user_name,
                                       password=user_password,
+                                      host=database_host,
+                                      port=database_port,
                                       database=database_name),
                          poolclass=NullPool)
   return engine

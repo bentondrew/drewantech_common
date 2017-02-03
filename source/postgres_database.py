@@ -5,7 +5,6 @@
 from contextlib import contextmanager
 
 login = 'postgresql://{user}:{password}@{host}:{port}/{database}'
-database_base_command = '{action} DATABASE {database_name}'
 
 
 def connect_to_database(user_name,
@@ -29,18 +28,6 @@ def execute_postgres_command(engine, command):
   connection.execute('COMMIT')
   connection.execute(str(command))
   connection.close()
-
-
-def generate_create_database_command(database_to_create):
-  command = database_base_command.format(action='CREATE',
-                                         database_name=database_to_create)
-  return command
-
-
-def generate_drop_database_command(database_to_drop):
-  command = database_base_command.format(action='DROP',
-                                         database_name=database_to_drop)
-  return command
 
 
 @contextmanager

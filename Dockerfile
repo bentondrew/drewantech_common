@@ -1,4 +1,4 @@
-FROM drewantech/flask_sqlalchemy_psycopg2:1.0.1
+FROM drewantech/flask_sqlalchemy_psycopg2:1.3.0
 MAINTAINER Benton Drew <benton.s.drew@drewantech.com>
 USER root
 RUN rm test_psycopg2.py
